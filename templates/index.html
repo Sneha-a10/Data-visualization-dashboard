@@ -37,23 +37,26 @@
         </a>
     </div>
 
-    <div class="upload-section">
-        <form method="POST" enctype="multipart/form-data" action="/upload" onsubmit="validateFileInput(event)" class="upload-form">
-            <div class="file-input-group">
-                <label for="csvFile">Upload your csv file</label>
-                <div class="file-input-container">
-                    <input type="file" name="file" id="csvFile" required onchange="updateFileName()">
-                    <label for="csvFile" class="custom-file-input">Choose file</label>
-                    <span id="chosenFileName" class="file-name">&lt;The chosen file name&gt;</span>
+    <div class ="upload-container">
+        <div class="upload-section">
+            <form method="POST" enctype="multipart/form-data" action="/upload" onsubmit="validateFileInput(event)" class="upload-form">
+                <div class="file-input-group">
+                    <label for="csvFile">Upload your csv file</label>
+                    <div class="file-input-container">
+                        <input type="file" name="file" id="csvFile" required onchange="updateFileName()">
+                        <label for="csvFile" class="custom-file-input">Choose file</label>
+                        <span id="chosenFileName" class="file-name">{{ table_name }}.csv</span>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="upload-btn">Upload</button>
-        </form>
+                <button type="submit" class="upload-btn">Upload</button>
+            </form>
+        </div>
     </div>
 
     {% if table %}
     <div class="content-section">
         <div class="table-section">
+            <h2 class="table-name">{{ table_name }}</h2>
             <div class="table-container">
                 {{ table|safe }}
             </div>

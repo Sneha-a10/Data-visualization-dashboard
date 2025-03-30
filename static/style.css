@@ -15,21 +15,21 @@ h1, h2, h3 {
 .header {
     background-color: #0FA3B1;
     color: white;
-    padding: 15px 0;
+    padding: 35px 0;
     margin: 0;
     text-align: center;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
     font-weight: 700;
 }
 
 .sub-header {
-    background-color: #B5E2FA;
-    padding: 0;
+    background-color: #b2f3ff;
+    padding: 10px;
     margin: 0;
 }
 
@@ -50,11 +50,20 @@ h1, h2, h3 {
     background-color: #a0d6f2;
 }
 
-/* Upload Section */
+.main-container {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-start;
+    padding: 100px;
+    margin-left: 100px;
+}
+
 .upload-section {
+    width: 500px;  
     padding: 20px;
-    margin: 0 auto;
     max-width: 800px;
+    margin-left: 40px;
+    margin-top: 40px;
 }
 
 .upload-form {
@@ -122,19 +131,19 @@ input[type="file"] {
     background-color: #76d2bb;
 }
 
-/* Content Section */
 .content-section {
     display: flex;
-    margin: 20px auto;
-    max-width: 1000px;
-    gap: 20px;
+    justify-content: space-between; 
+    margin: 40px 40px; 
+    gap: 20px; 
 }
 
 .table-section {
-    flex: 3;
+    flex: 0 0 75%; 
     background-color: #d9f6f3;
     padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .table-section h3 {
@@ -156,15 +165,17 @@ input[type="file"] {
 }
 
 .table-info-section {
-    flex: 1;
+    flex: 0 0 15%; 
+    background-color: #4fb5c5;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
 }
-
 .info-card {
     background-color: #4fb5c5;
     color: white;
     padding: 20px;
     border-radius: 8px;
-    height: 100%;
 }
 
 .info-card h3 {
@@ -183,12 +194,12 @@ input[type="file"] {
     margin-bottom: 10px;
 }
 
-/* Graph Controls */
 .graph-controls-section {
-    margin: 20px auto;
-    max-width: 1000px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin: 20px 50px; 
+    gap: 20px;
 }
 
 .graph-form {
@@ -196,16 +207,21 @@ input[type="file"] {
     width: 100%;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .axis-selectors {
     display: flex;
+    flex-direction: column;
     gap: 20px;
+    flex: 1; 
 }
 
 .axis-group {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .axis-group label {
@@ -245,6 +261,9 @@ select {
 .graph-type-selector {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
 }
 
 .graph-type-selector label {
@@ -258,12 +277,18 @@ select {
     background-color: #4fb5c5;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 20px;
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
     transition: background 0.3s;
     font-family: 'Josefin Sans', sans-serif;
+    flex: 0 0 25%; 
+    text-align: center;
+    height: auto; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
 .generate-btn:hover {
@@ -288,7 +313,11 @@ select {
 }
 
 .graph-container {
-    margin: 20px 0;
+    margin: 20px auto;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
 }
 
 .download-btn {
