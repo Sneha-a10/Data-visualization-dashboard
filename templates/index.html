@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Visualization Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        function validateFileInput(event) {
+            const fileInput = document.querySelector('input[type="file"]');
+            const file = fileInput.files[0];
+            if (file && file.type !== 'text/csv') {
+                event.preventDefault();
+                alert("Only CSV files can be uploaded.");
+                fileInput.value = ""; // Clear the invalid file
+            }
+        }
+
+        function updateFileName() {
+            const fileInput = document.getElementById('csvFile');
+            const fileNameSpan = document.getElementById('chosenFileName');
+            if (fileInput.files.length > 0) {
+                fileNameSpan.textContent = fileInput.files[0].name;
+            } else {
+                fileNameSpan.textContent = "<The chosen file name>";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>DATA VISUALIZATION BOARD</h1>
+    </div>
+
+    <div class="sub-header">
+        <a href="{{ url_for('about_graphs') }}" target="_blank">
+            <div class="learn-more-button">Learn more about graphs</div>
+        </a>
+    </div>
+
+    <div class="upload-section">
+        <form method="POST" enctype="multipart/form-data" action="/upload" onsubmit="validateFileInput(event)" class="upload-form">
+            <div class="file-input-group">
+                <label for="csvFile">Upload your csv file</label>
+                <div class="file-input-container">
+                    <input type="file" name="file" id="csvFile" required onchange="updateFileName()">
+                    <label for="csvFile" class="custom-file-input">Choose file</label>
+                    <span id="chosenFileName" class="file-name">&lt;The chosen file name&gt;</span>
+                </div>
+            </div>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
+    </div>
+
+    {% if table %}
+    <div class="content-section">
+        <div class="table-section">
+            <div class="table-container">
+                {{ table|safe }}
+            </div>
+        </div>
+
+        <div class="table-info-section">
+            <div class="info-card">
+                <h3>About the table</h3>
+                <ul>
+                    <li>Total number of columns: {{ total_columns }}</li>
+                    <li>Total number of rows: {{ total_rows }}</li>
+                    <li>Column names: {{ column_names | join(', ') }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="graph-controls-section">
+        <form method="POST" action="/generate-graph" class="graph-form">
+            <div class="axis-selectors">
+                <div class="axis-group">
+                    <label for="x_column">x - axis:</label>
+                    <div class="dropdown-container">
+                        <select name="x_column" id="x_column" required>
+                            <option value="" disabled selected>&lt;columns&gt;</option>
+                            {% for col in columns %}
+                            <option value="{{ col }}">{{ col }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="dropdown-arrow">▼</div>
+                    </div>
+                </div>
+
+                <div class="axis-group">
+                    <label for="y_column">y - axis:</label>
+                    <div class="dropdown-container">
+                        <select name="y_column" id="y_column" required>
+                            <option value="" disabled selected>&lt;columns&gt;</option>
+                            {% for col in columns %}
+                            <option value="{{ col }}">{{ col }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="dropdown-arrow">▼</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-type-selector">
+                <label>Choose graph</label>
+                <div class="dropdown-container">
+                    <select name="graph_type">
+                        <option value="" disabled selected>&lt; graphs&gt;</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="scatter">Scatter Plot</option>
+                        <option value="line">Line Graph</option>
+                    </select>
+                    <div class="dropdown-arrow">▼</div>
+                </div>
+            </div>
+
+            <input type="hidden" name="filename" value="{{ filename }}">
+            <button type="submit" class="generate-btn">Generate graph</button>
+        </form>
+    </div>
+
+    {% if plot %}
+    <div class="graph-section">
+        <div class="graph-container">
+            {{ plot | safe }}
+        </div>
+        <a href="{{ download_url }}" download>
+            <button class="download-btn">Download graph</button>
+        </a>
+    </div>
+    {% else %}
+    <div class="graph-section empty-graph">
+    </div>
+    {% endif %}
+    {% endif %}
+
+</body>
+</html>

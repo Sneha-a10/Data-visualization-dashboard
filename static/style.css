@@ -1,0 +1,356 @@
+
+body {
+    font-family: 'Josefin Sans', Arial, sans-serif;
+    background-color: #f0fffd;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    font-family: 'Cardo', serif;
+}
+
+/* Header Styles */
+.header {
+    background-color: #0FA3B1;
+    color: white;
+    padding: 15px 0;
+    margin: 0;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.sub-header {
+    background-color: #B5E2FA;
+    padding: 0;
+    margin: 0;
+}
+
+.sub-header a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    width: 100%;
+}
+
+.learn-more-button {
+    padding: 10px 0;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.learn-more-button:hover {
+    background-color: #a0d6f2;
+}
+
+/* Upload Section */
+.upload-section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.file-input-group label {
+    color: #0FA3B1;
+    font-weight: bold;
+    margin-right: 15px;
+    white-space: nowrap;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.file-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-input {
+    padding: 8px 12px;
+    border: 2px dashed #999;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: white;
+    display: inline-block;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.file-name {
+    color: #666;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.upload-btn {
+    background-color: #4fb5c5;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    width: 100%;
+    max-width: 500px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.upload-btn:hover {
+    background-color: #76d2bb;
+}
+
+/* Content Section */
+.content-section {
+    display: flex;
+    margin: 20px auto;
+    max-width: 1000px;
+    gap: 20px;
+}
+
+.table-section {
+    flex: 3;
+    background-color: #d9f6f3;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.table-section h3 {
+    color: #333;
+    margin-top: 0;
+    font-family: 'Cardo', serif;
+}
+
+.table-info {
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.table-info-section {
+    flex: 1;
+}
+
+.info-card {
+    background-color: #4fb5c5;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.info-card h3 {
+    margin-top: 0;
+    text-align: left;
+    font-family: 'Cardo', serif;
+}
+
+.info-card ul {
+    text-align: left;
+    padding-left: 20px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.info-card li {
+    margin-bottom: 10px;
+}
+
+/* Graph Controls */
+.graph-controls-section {
+    margin: 20px auto;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.graph-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.axis-selectors {
+    display: flex;
+    gap: 20px;
+}
+
+.axis-group {
+    display: flex;
+    align-items: center;
+}
+
+.axis-group label {
+    color: #0FA3B1;
+    margin-right: 10px;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #d9f6f3;
+    padding: 8px 35px 8px 10px;
+    border: none;
+    border-radius: 4px;
+    width: 200px;
+    cursor: pointer;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #0FA3B1;
+}
+
+.graph-type-selector {
+    display: flex;
+    align-items: center;
+}
+
+.graph-type-selector label {
+    color: #0FA3B1;
+    margin-right: 10px;
+    font-weight: bold;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.generate-btn {
+    background-color: #4fb5c5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.generate-btn:hover {
+    background-color: #76d2bb;
+}
+
+/* Graph Section */
+.graph-section {
+    margin: 20px auto;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #f0fffd;
+    border-radius: 8px;
+}
+
+.empty-graph {
+    min-height: 300px;
+    border: 1px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graph-container {
+    margin: 20px 0;
+}
+
+.download-btn {
+    background-color: #4fb5c5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    transition: background 0.3s;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.download-btn:hover {
+    background-color: #76d2bb;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #0FA3B1;
+    color: white;
+    font-family: 'Cardo', serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-section {
+        flex-direction: column;
+    }
+
+    .graph-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .axis-selectors {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .axis-group, .graph-type-selector {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    select {
+        width: 100%;
+    }
+}
