@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Josefin Sans', Arial, sans-serif;
     background-color: #f0fffd;
@@ -357,6 +356,15 @@ th {
     background-color: #0FA3B1;
     color: white;
     font-family: 'Cardo', serif;
+}
+
+input[type="color"] {
+    width: 200px; /* Match the dropdown width */
+    height: 40px; /* Adjust height for better visibility */
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0;
 }
 
 /* Responsive Design */
