@@ -4,24 +4,185 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Graphs</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="static/about_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Josefin Sans', Arial, sans-serif;
+            background-color: #f0fffd;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #0FA3B1;
+            font-family: 'Cardo', serif;
+        }
+        .section {
+            background: #d9f6f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .graph-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        .graph-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            width: 40%;
+            min-width: 300px;
+            text-align: left;
+        }
+        h3 {
+            color: #0FA3B1;
+            font-family: 'Cardo', serif;
+        }
+        ul {
+            font-family: 'Josefin Sans', sans-serif;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>About Different Types of Graphs</h1>
-        <p>Here's an overview of different graphs and when to use them:</p>
+        <h1>About Graphs</h1>
+        <p><b>What are graphs and why are they used?</b></p>
+        <p>Graphs are visual representations of data that help in understanding patterns, trends, and relationships within a dataset. In statistics, 
+            graphs are used to summarize large amounts of information efficiently, making it easier to identify key insights such as distributions, comparisons, and correlations. 
+            Common types of graphs include bar charts, histograms, pie charts, line graphs, and scatter plots, each serving a specific purpose. 
+            For example, histograms display frequency distributions, while scatter plots reveal relationships between variables. 
+            By transforming numerical data into visual formats, graphs enhance comprehension, facilitate decision-making, and make statistical findings more accessible to a wider audience.</p>
+        
+        <div class="section">
+            <div class="graph-container">
+                <div class="graph-box">
+                    <h3><b>Bar Graph</b></h3>
+                    <ul>
+                        <li>A bar graph is a chart that represents categorical data using rectangular bars, where the height or length of each bar indicates the value or frequency of a category.</li>
+                        <li>It is most suitable for comparing different categories, showing trends over time with significant changes, and visualizing survey results.</li>
+                        <li>For example, bar graphs can compare the sales of different products in a store, display student performance across subjects, or show the population of various cities.</li>
+                    </ul>
+                </div>
+                <div class="graph-box">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="graph-container">
+                <div class="graph-box">
+                    <h3>Line Graph</h3>
+                    <ul>
+                        <li>A line graph is a type of chart that uses points connected by lines to show trends over time.</li>
+                        <li>It is most suitable for displaying continuous data, such as temperature changes, stock market trends, or population growth over years.</li>
+                        <li>For example, a line graph can track monthly sales revenue, show the rise and fall of daily temperatures, or illustrate the progress of a student's grades throughout a semester.</li>
+                    </ul>
+                </div>
+                <div class="graph-box">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
 
-        <h2>📊 Bar Chart</h2>
-        <p>Used for comparing different categories.</p>
+        <div class="section">
+            <div class="graph-container">
+                <div class="graph-box">
+                    <h3>Scatter Plot</h3>
+                    <ul>
+                        <li>A scatter plot is a type of graph that uses dots to represent values for two different variables, showing their relationship or correlation.</li>
+                        <li>It is most suitable for identifying patterns, trends, and correlations between variables, such as positive, negative, or no correlation.</li>
+                        <li>For example, scatter plots can be used to analyze the relationship between study hours and exam scores, compare height and weight in a group of people, or examine the link between advertising spending and sales revenue.</li>
+                    </ul>
+                </div>
+                <div class="graph-box">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+        </div>
 
-        <h2>📈 Line Chart</h2>
-        <p>Best for showing trends over time.</p>
-
-        <h2>🟠 Pie Chart</h2>
-        <p>Good for showing proportions of a whole.</p>
-
-        <h2>🔹 Scatter Plot</h2>
-        <p>Used to identify relationships between two variables.</p>
+        <div class="section">
+            <div class="graph-container">
+                <div class="graph-box">
+                    <h3>Pie Chart</h3>
+                    <ul>
+                        <li>A pie chart is a circular chart divided into slices, where each slice represents a proportion of a whole.</li>
+                        <li>It is most suitable for showing percentage distributions or comparing parts of a whole, especially when the total is 100%.</li>
+                        <li>For example, pie charts can illustrate the market share of different companies, the percentage of a household budget spent on various expenses, or the proportion of students choosing different extracurricular activities.</li>
+                    </ul>
+                </div>
+                <div class="graph-box">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B', 'C', 'D', 'E'],
+                datasets: [{
+                    label: 'Bar Graph',
+                    data: [12, 19, 3, 5, 2],
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                }]
+            }
+        });
+
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Line Graph',
+                    data: [3, 10, 5, 8, 15],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false
+                }]
+            }
+        });
+
+        const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+        new Chart(ctxScatter, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Scatter Plot',
+                    data: [{x: 10, y: 20}, {x: 15, y: 10}, {x: 20, y: 30}],
+                    backgroundColor: 'rgba(75, 192, 192, 1)'
+                }]
+            }
+        });
+
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    data: [30, 45, 25],
+                    backgroundColor: ['red', 'blue', 'yellow']
+                }]
+            }
+        });
+    </script>
 </body>
 </html>
