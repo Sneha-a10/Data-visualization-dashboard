@@ -11,7 +11,7 @@
             if (file && file.type !== 'text/csv') {
                 event.preventDefault();
                 alert("Only CSV files can be uploaded.");
-                fileInput.value = ""; // Clear the invalid file
+                fileInput.value = ""; 
             }
         }
 
@@ -24,6 +24,24 @@
                 fileNameSpan.textContent = "<The chosen file name>";
             }
         }
+
+        function toggleAxisSelectors() {
+            const graphType = document.querySelector('select[name="graph_type"]').value;
+            const axisSelectors = document.querySelector('.axis-selectors');
+            const yAxisGroup = document.querySelector('select[name="y_column"]').closest('.axis-group');
+
+            if (graphType === 'heatmap') {
+                axisSelectors.style.display = 'none';
+            } else {
+                axisSelectors.style.display = 'flex';
+                if (graphType === 'pie') {
+                    yAxisGroup.style.display = 'none';
+                } else {
+                    yAxisGroup.style.display = 'block';
+                }
+            }
+        }
+        
     </script>
 </head>
 <body>
@@ -112,6 +130,10 @@
                         <option value="bar">Bar Chart</option>
                         <option value="scatter">Scatter Plot</option>
                         <option value="line">Line Graph</option>
+                        <option value="histogram">Histogram</option>
+                        <option value="box">Box Plot</option>
+                        <option value="pie">Pie Chart</option>
+                        <option value="heatmap">Heatmap</option>
                     </select>
                     <div class="dropdown-arrow">▼</div>
                 </div>
