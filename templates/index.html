@@ -88,6 +88,12 @@
                     <li>Total number of rows: {{ total_rows }}</li>
                     <li>Column names: {{ column_names | join(', ') }}</li>
                 </ul>
+                {% if data_summary %}
+                <div class="data-summary">
+                    <h3>Data Summary:</h3>
+                    <p>{{ data_summary }}</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -151,12 +157,35 @@
 
     {% if plot %}
     <div class="graph-section">
-        <div class="graph-container">
+        <div id="graph-container" style="position: relative;">
             {{ plot | safe }}
+            <canvas id="annotation-canvas" style="position: absolute; top: 0; left: 0; z-index: 2;"></canvas>
         </div>
-        <a href="{{ download_url }}" download>
-            <button class="download-btn">Download graph</button>
-        </a>
+        <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+            <div>
+                <a href="{{ download_url }}" download style="display:inline-block; text-decoration: none;">
+                    <button class="download-btn" style="width: 500px;">Download graph</button>
+                </a>
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 20px;">
+                <div class="annotate-toggle" style="text-align: center;">
+                    <label class="switch">
+                        <input type="checkbox" id="annotate-checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <span style="margin-left: 5px; color: #0FA3B1;">Annotate</span>
+            </div>
+        </div>
+        <div id="annotation-toolbar" style="display:none; margin-top: 10px;">
+            <button id="line-btn">Line</button>
+            <button id="rect-btn">Rectangle</button>
+            <button id="circle-btn">Circle</button>
+            <button id="text-btn">Text</button>
+            <button id="delete-all-btn">Delete All</button>
+            <input type="color" id="annotation-color" value="#000000">
+            <button id="undo-btn">Undo</button>
+        </div>
     </div>
     {% else %}
     <div class="graph-section empty-graph">
@@ -164,5 +193,200 @@
     {% endif %}
     {% endif %}
 
+    <script>
+        const canvas = document.getElementById('annotation-canvas');
+        const ctx = canvas.getContext('2d');
+        const img = document.querySelector('#graph-container img');
+        const toolbar = document.getElementById('annotation-toolbar');
+        const lineBtn = document.getElementById('line-btn');
+        const rectBtn = document.getElementById('rect-btn');
+        const circleBtn = document.getElementById('circle-btn');
+        const textBtn = document.getElementById('text-btn');
+        const deleteAllBtn = document.getElementById('delete-all-btn');
+        const annotationColor = document.getElementById('annotation-color');
+        const undoBtn = document.getElementById('undo-btn');
+
+        let drawingMode = 'line'; // Default drawing mode
+        let isDrawing = false;
+        let startX, startY, endX, endY;
+        let annotations = [];
+        let history = [];
+        let historyIndex = -1;
+        let currentColor = '#000000';
+
+        // Set canvas dimensions to match the image
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvas.style.width = img.width + 'px';
+            canvas.style.height = img.height + 'px';
+            redrawAnnotations();
+        };
+
+        // Function to redraw annotations
+        function redrawAnnotations() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            annotations.forEach(annotation => {
+                switch (annotation.type) {
+                    case 'line':
+                        drawLine(annotation.startX, annotation.startY, annotation.endX, annotation.endY, annotation.color);
+                        break;
+                    case 'rectangle':
+                        drawRectangle(annotation.startX, annotation.startY, annotation.endX, annotation.endY, annotation.color);
+                        break;
+                    case 'circle':
+                        drawCircle(annotation.startX, annotation.startY, annotation.endX, annotation.endY, annotation.color);
+                        break;
+                    case 'text':
+                        drawText(annotation.text, annotation.x, annotation.y, annotation.color);
+                        break;
+                }
+            });
+        }
+
+        // Drawing functions
+        function drawLine(startX, startY, endX, endY, color) {
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function drawRectangle(startX, startY, endX, endY, color) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        }
+
+        function drawCircle(startX, startY, endX, endY, color) {
+            const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            ctx.beginPath();
+            ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function drawText(text, x, y, color) {
+            ctx.font = '16px Arial';
+            ctx.fillStyle = color;
+            ctx.fillText(text, x, y);
+        }
+
+        // Save state to history
+        function saveToHistory() {
+            historyIndex++;
+            if (historyIndex < history.length) {
+                history = history.slice(0, historyIndex);
+            }
+            history.push(JSON.parse(JSON.stringify(annotations)));
+        }
+
+        // Event listeners for toolbar buttons
+        lineBtn.addEventListener('click', () => {
+            drawingMode = 'line';
+        });
+
+        rectBtn.addEventListener('click', () => {
+            drawingMode = 'rectangle';
+        });
+
+        circleBtn.addEventListener('click', () => {
+            drawingMode = 'circle';
+        });
+
+        textBtn.addEventListener('click', () => {
+            drawingMode = 'text';
+            const text = prompt('Enter text:');
+            if (text) {
+                canvas.addEventListener('click', function addText(event) {
+                    const x = event.offsetX;
+                    const y = event.offsetY;
+                    const annotation = { type: 'text', text: text, x: x, y: y, color: currentColor };
+                    annotations.push(annotation);
+                    drawText(text, x, y, currentColor);
+                    saveToHistory();
+                    canvas.removeEventListener('click', addText);
+                    drawingMode = null;
+                });
+            }
+        });
+
+        deleteAllBtn.addEventListener('click', () => {
+            annotations = [];
+            redrawAnnotations();
+            saveToHistory();
+        });
+
+        annotationColor.addEventListener('change', (e) => {
+            currentColor = e.target.value;
+        });
+
+        undoBtn.addEventListener('click', () => {
+            if (historyIndex > 0) {
+                historyIndex--;
+                annotations = JSON.parse(JSON.stringify(history[historyIndex]));
+                redrawAnnotations();
+            }
+        });
+
+        // Canvas event listeners
+        canvas.addEventListener('mousedown', (e) => {
+            if (!annotateCheckbox.checked) return;
+            isDrawing = true;
+            startX = e.offsetX;
+            startY = e.offsetY;
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (!annotateCheckbox.checked) return;
+            if (!isDrawing) return;
+            isDrawing = false;
+            endX = e.offsetX;
+            endY = e.offsetY;
+
+            if (drawingMode === 'line') {
+                const annotation = { type: 'line', startX: startX, startY: startY, endX: endX, endY: endY, color: currentColor };
+                annotations.push(annotation);
+                drawLine(startX, startY, endX, endY, currentColor);
+                saveToHistory();
+            } else if (drawingMode === 'rectangle') {
+                const annotation = { type: 'rectangle', startX: startX, startY: startY, endX: endX, endY: endY, color: currentColor };
+                annotations.push(annotation);
+                drawRectangle(startX, startY, endX, endY, currentColor);
+                saveToHistory();
+            } else if (drawingMode === 'circle') {
+                const annotation = { type: 'circle', startX: startX, startY: startY, endX: endX, endY: endY, color: currentColor };
+                annotations.push(annotation);
+                drawCircle(startX, startY, endX, endY, currentColor);
+                saveToHistory();
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!annotateCheckbox.checked) return;
+            if (!isDrawing) return;
+        });
+
+        canvas.addEventListener('mouseout', () => {
+            isDrawing = false;
+        });
+
+        const annotateCheckbox = document.getElementById('annotate-checkbox');
+        const annotationToolbar = document.getElementById('annotation-toolbar');
+        const annotationCanvas = document.getElementById('annotation-canvas');
+
+        annotateCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                annotationToolbar.style.display = 'flex';
+                annotationCanvas.classList.add('active');
+            } else {
+                annotationToolbar.style.display = 'none';
+                annotationCanvas.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
