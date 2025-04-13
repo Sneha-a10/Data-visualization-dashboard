@@ -1,2 +1,5 @@
-Flask
+matplotlib
+seaborn
 pandas
+flask
+werkzeug
