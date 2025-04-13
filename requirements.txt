@@ -3,3 +3,5 @@ seaborn
 pandas
 flask
 werkzeug
+pytest
+pytest-cov
