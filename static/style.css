@@ -467,7 +467,7 @@ input[type="color"] {
 }
 
 #annotation-toolbar {
-    background-color: #b2f3ff;
+    background-color: #d9f6f3;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
@@ -502,4 +502,24 @@ input[type="color"] {
     select {
         width: 100%;
     }
+}
+
+/* Style for annotation toolbar buttons */
+#annotation-toolbar button {
+    color: #0FA3B1;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-family: 'Josefin Sans', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90px; /* Uniform width */
+    text-align: center;
+    background-color: azure;
+}
+
+#annotation-toolbar button:hover {
+    background-color: #a0d6f2;
 }
