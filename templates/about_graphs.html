@@ -337,14 +337,12 @@
                     <li>For example, heat maps are used in weather charts, website click tracking, or correlation matrices in data analysis.</li>
                 </ul>
             </div>
-            <div class="graph-box"> <!-- Set explicit height -->
-                <img src="Data-visualization-dashboard\static\IMAGES\IMG_1940.jpg" alt="Box Plot Image" style="width: 100%; height: 250px; object-fit: contain; border-radius: 8px;">
-        </div>
+            <div class="graph-box">
+                <img src="{{ url_for('static', filename='IMAGES/IMG_1940.jpg') }}" alt="Heat Map Image" style="width: 100%; height: 250px; object-fit: contain; border-radius: 8px;">
             </div>
         </div>
     </div>
     
-
     <div class="section">
         <div class="graph-container">
             <div class="graph-box">
@@ -356,7 +354,7 @@
                 </ul>
             </div>
             <div class="graph-box">
-                <img src="Data-visualization-dashboard\static\IMAGES\IMG_1938.jpg" alt="Box Plot Image" style="width: 100%; height: 250px; object-fit: contain; border-radius: 8px;">
+                <img src="{{ url_for('static', filename='IMAGES/IMG_1938.jpg') }}" alt="Box Plot Image" style="width: 100%; height: 250px; object-fit: contain; border-radius: 8px;">
             </div>
         </div>
     </div>
