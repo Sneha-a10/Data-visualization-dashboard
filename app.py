@@ -202,4 +202,4 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    run_simple('localhost', 5000, app)
+    run_simple('0.0.0.0', 5000, app)
