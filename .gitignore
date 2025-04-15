@@ -3,3 +3,5 @@ uploads
 __pycache__
 __init__.py
 .coverage
+test_uploads
+htmlcov
