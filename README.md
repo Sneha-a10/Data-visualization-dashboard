@@ -51,7 +51,7 @@ Data Visualization Dashboard is a user-friendly web application designed to empo
 
 ###  📦 Installation
 
-####🔧 Prerequisites
+####    🔧 Prerequisites
 
 Make sure you have the following installed:
 
